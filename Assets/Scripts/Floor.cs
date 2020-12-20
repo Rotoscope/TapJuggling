@@ -6,7 +6,6 @@ public class Floor : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
 
-    // Start is called before the first frame update
     void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
