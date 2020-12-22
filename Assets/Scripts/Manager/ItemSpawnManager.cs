@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSpawner : MonoBehaviour
+public class ItemSpawnManager : MonoBehaviour
 {
     public BaseItem[] items;
 
     internal float spawnTime = 0f;
     internal float reductionCheck = 0f;
-    internal float spawnDelay = Constants.INITIAL_SPAWN_DELAY;
+    internal float spawnDelay = GameConstants.INITIAL_SPAWN_DELAY;
     internal int spawnCount = 0;
 
     private void Start()
@@ -28,9 +28,9 @@ public class ItemSpawner : MonoBehaviour
             spawnTime = 0f;
         }
 
-        if (spawnDelay >= Constants.MINIMUM_SPAWN_DELAY && reductionCheck >= Constants.REDUCTION_CHECK)
+        if (spawnDelay >= GameConstants.MINIMUM_SPAWN_DELAY && reductionCheck >= GameConstants.REDUCTION_CHECK)
         {
-            spawnDelay -= Constants.SPAWN_REDUCTION;
+            spawnDelay -= GameConstants.SPAWN_REDUCTION;
             reductionCheck = 0f;
         }
     }
@@ -40,10 +40,13 @@ public class ItemSpawner : MonoBehaviour
         spawnCount++;
         int itemIndex = Random.Range(0, items.Length);
         GameObject go = Instantiate(items[itemIndex].gameObject);
-        Transform transform = go.transform;
-        float x = Screen.safeArea.width * 3 / 4;
-        transform.position = new Vector3(Random.Range(-x, x), Screen.safeArea.height);
-        transform.SetParent(PlayManager.Instance.itemMount.transform, false);
+        RectTransform rt = go.GetComponent<RectTransform>();
+        rt.SetParent(PlayController.Instance.itemMount.transform, false);
+        rt.localPosition = new Vector3(
+            Random.Range(GameConstants.SAFE_SPAWN_LEFT, GameConstants.SAFE_SPAWN_RIGHT),
+            GameConstants.SAFE_SPAWN_HEIGHT);
+        Debug.LogFormat("Spawning at {0}", rt.localPosition.ToString());
+        go.SetActive(true);
         Rigidbody2D rb = go.GetComponent<Rigidbody2D>();
         rb.AddForce(new Vector2(Random.Range(-200, 200), -100f), ForceMode2D.Impulse);
     }

@@ -5,12 +5,6 @@ using UnityEngine;
 public class BoxItem : BaseItem
 {
     private BoxCollider2D boxCollider2D;
-    private Rigidbody2D rigidbody2D;
-
-    void Start()
-    {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-    }
 
     public override void AdjustCollider()
     {

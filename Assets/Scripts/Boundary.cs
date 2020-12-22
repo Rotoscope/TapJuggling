@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Floor : MonoBehaviour
+public class Boundary : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
 
