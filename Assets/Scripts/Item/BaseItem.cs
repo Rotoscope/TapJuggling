@@ -5,15 +5,18 @@ using UnityEngine.EventSystems;
 
 public abstract class BaseItem : MonoBehaviour, IItem, IPointerDownHandler
 {
-    internal bool isRemoving = false;
     internal Rigidbody2D itemRb;
     internal RectTransform rt;
 
+    public abstract void Init();
     public abstract void AdjustCollider();
+    public abstract void OnFloorCollision(Collision2D collision);
+    public abstract void OnClick();
 
     // Start is called before the first frame update
     private void Start()
     {
+        Init();
         AdjustCollider();
         itemRb = GetComponent<Rigidbody2D>();
         rt = GetComponent<RectTransform>();
@@ -21,20 +24,10 @@ public abstract class BaseItem : MonoBehaviour, IItem, IPointerDownHandler
 
     internal void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isRemoving) return;
-
         if (collision.gameObject.name == "Floor")
         {
-            LifeManager.Instance.DecrementLife();
-            StartCoroutine(BeginRemoval());
+            OnFloorCollision(collision);
         }
-    }
-
-    internal IEnumerator BeginRemoval()
-    {
-        isRemoving = true;
-        yield return new WaitForSeconds(1.5f);
-        Destroy(gameObject);
     }
 
     private void Update()
@@ -67,11 +60,6 @@ public abstract class BaseItem : MonoBehaviour, IItem, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Vector2 originalVelocity = itemRb.velocity;
-        if (originalVelocity.y < 0)
-        {
-            ScoreManager.Instance.IncrementScore();
-            itemRb.velocity = new Vector2(originalVelocity.x, GameConstants.CLICK_BOOST);
-        }
+        OnClick();
     }
 }

@@ -48,6 +48,14 @@ public class ItemSpawnManager : MonoBehaviour
         Debug.LogFormat("Spawning at {0}", rt.localPosition.ToString());
         go.SetActive(true);
         Rigidbody2D rb = go.GetComponent<Rigidbody2D>();
-        rb.AddForce(new Vector2(Random.Range(-200, 200), -100f), ForceMode2D.Impulse);
+
+        int horizontalMultipler = Random.Range(0, 2);
+        float horizontal = Random.Range(200f, 300f);
+        if (horizontalMultipler == 0)
+        {
+            horizontal *= -1;
+        }
+
+        rb.velocity = new Vector2(horizontal, GameConstants.INITIAL_SPAWN_FORCE);
     }
 }
