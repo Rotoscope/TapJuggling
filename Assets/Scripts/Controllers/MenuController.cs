@@ -7,6 +7,7 @@ public class MenuController : MonoBehaviour
 {
     public void OnPlayTapped()
     {
+        LifeManager.Instance.Reset();
         SceneManager.LoadScene("PlayScene");
     }
 }

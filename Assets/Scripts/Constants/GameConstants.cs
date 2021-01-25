@@ -13,7 +13,7 @@ public class GameConstants
     // after REDUCTION_CHECK, reduce delay by reduction
     public const float REDUCTION_CHECK = 2f;
     public const float SPAWN_REDUCTION = 0.5f;
-    public const float CLICK_BOOST = 250f;
+    public const float CLICK_BOOST = 900f;
 
     public const int INITIAL_LIFE_COUNT = 3;
 

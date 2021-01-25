@@ -28,4 +28,9 @@ public class LifeManager
             SceneManager.LoadScene("MenuScene");
         }
     }
+
+    public void Reset()
+    {
+        LifeCount = GameConstants.INITIAL_LIFE_COUNT;
+    }
 }

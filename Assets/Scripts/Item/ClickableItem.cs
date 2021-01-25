@@ -8,6 +8,8 @@ public abstract class ClickableItem : BaseItem
 
     public override void OnClick()
     {
+        if (isRemoving) return;
+
         Vector2 originalVelocity = itemRb.velocity;
         if (originalVelocity.y < 0)
         {
